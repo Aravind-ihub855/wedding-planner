@@ -1,51 +1,42 @@
-# ForeverPlan — Premium Wedding Planning Application
+# ForeverPlan - Luxury Wedding Planning Atelier
 
-ForeverPlan is a luxurious, high-end digital wedding concierge designed for modern couples who value elegance, precision, and seamless celebration planning. Built with a warm champagne gold and stone aesthetic, it provides an editorial-grade user experience for managing RSVPs, budgets, curated vendors, and big-day timelines.
+ForeverPlan is an elite, high-end wedding planning atelier web application designed to orchestrate luxury weddings with absolute precision and elegance. Styled in a sophisticated Digital Atelier aesthetic (Rose Champagne palette, editorial serif headings, and warm stone neutrals), it provides complete oversight of guests, budgets, curated vendors, and wedding day timelines.
 
 ## Tech Stack
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS
+- **Framework**: Next.js 14 App Router (React 18, TypeScript)
+- **Styling**: Tailwind CSS with custom editorial design tokens
 - **Icons**: Lucide React
-- **Typography**: Fraunces (Serif) & Outfit (Sans-serif)
+- **Animations**: Framer Motion
+- **Database / Auth**: Zero-dependency token auth + MongoDB persistence (with fallback state)
 
 ## Project Folder Tree
-```
-├── src/
-│   ├── app/
-│   │   ├── page.tsx            # Primary Application Entry Point
-│   │   └── layout.tsx          # Global Layout Wrapper
-│   ├── components/
-│   │   ├── Navbar.tsx          # Sticky Glassmorphic Header
-│   │   ├── Footer.tsx          # Deep Warm Stone Footer
-│   │   ├── DashboardView.tsx   # Command Center with Countdown & RSVP Stats
-│   │   ├── GuestListView.tsx   # RSVP Hub & Guest Management
-│   │   ├── BudgetPlannerView.tsx # Financial Sanctuary & Expense Ledger
-│   │   ├── VendorsView.tsx     # Curated Creative Team & Portfolios
-│   │   └── TimelineView.tsx    # Big Day Run-Sheet & Milestones
-│   ├── data/
-│   │   └── mockData.ts         # Rich Domain Mock Data
-│   └── lib/
-│       ├── assets.ts           # Asset Management & Image Helpers
-│       └── theme.ts            # Design System Tokens
+```tree
+src/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx (Dashboard & Countdown)
+│   ├── guests/page.tsx (Guest List & Seating)
+│   ├── budget/page.tsx (Financial Planner & Expenses)
+│   ├── vendors/page.tsx (Vendor Directory & Inquiries)
+│   └── timeline/page.tsx (Day-of Schedule & Rehearsal)
+├── components/
+│   ├── Navbar.tsx
+│   ├── Sidebar.tsx
+│   ├── CountdownWidget.tsx
+│   ├── GuestModal.tsx
+│   ├── ExpenseModal.tsx
+│   └── VendorModal.tsx
+├── data/
+│   └── mockData.ts
+└── lib/
+    ├── assets.ts
+    ├── theme.ts
+    └── auth.ts
 ```
 
-## Local Setup Steps
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Copy environment variables:
-   ```bash
-   cp .env.example .env.local
-   ```
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
-4. Access the application at: [http://localhost:3100](http://localhost:3100)
+## Local Setup
+1. `npm install`
+2. `cp .env.example .env.local`
+3. `npm run dev`
 
-## Available Scripts
-- `npm run dev`: Starts the development server on port 3100.
-- `npm run build`: Builds the application for production.
-- `npm run start`: Starts the production server on port 3100.
-- `npm run lint`: Runs ESLint checks.
+Access the application at **http://localhost:3100**.

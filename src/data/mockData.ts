@@ -1,166 +1,94 @@
-import { getImage } from '@/lib/assets';
-
-export interface Guest {
+export interface GuestItem {
   id: string;
   name: string;
-  relationship: 'Bride Family' | 'Groom Family' | 'Mutual Friends' | 'Work Colleagues';
-  rsvpStatus: 'Attending' | 'Pending' | 'Declined';
+  email: string;
+  category: 'Family' | 'Wedding Party' | 'Friends' | 'VIP';
+  table: string;
   dietary: string;
-  tableAssignment: string;
+  status: 'Confirmed' | 'Pending' | 'Declined';
   plusOne: boolean;
 }
 
-export interface Expense {
+export interface BudgetItem {
+  id: string;
+  category: string;
+  item: string;
+  allocated: number;
+  spent: number;
+  status: 'Paid' | 'Partial' | 'Pending';
+}
+
+export interface VendorItem {
   id: string;
   name: string;
-  category: 'Venue' | 'Catering' | 'Attire' | 'Production' | 'Florist & Decor' | 'Music & Entertainment';
-  estimated: number;
-  actual: number;
-  paid: number;
-  status: 'Paid' | 'Deposit Paid' | 'Unpaid';
+  category: 'Photography' | 'Florist' | 'Caterer' | 'DJ' | 'Venue';
+  rating: number;
+  reviewsCount: number;
+  priceRange: string;
+  location: string;
+  image: string;
+  shortlisted: boolean;
+}
+
+export interface TimelineItem {
+  id: string;
+  time: string;
+  title: string;
+  location: string;
+  notes: string;
+  category: 'Ceremony' | 'Reception' | 'Preparation' | 'Photos';
 }
 
 export interface ChecklistItem {
   id: string;
   task: string;
+  category: string;
+  completed: boolean;
   dueDate: string;
-  completed: boolean;
-  category: 'Planning' | 'Bookings' | 'Design' | 'Legal';
 }
 
-export interface Vendor {
-  id: string;
-  name: string;
-  category: 'Venue' | 'Photography' | 'Florist' | 'Catering' | 'Music';
-  rating: number;
-  priceRange: '$$' | '$$$' | '$$$$';
-  status: 'Contract Signed' | 'In Negotiation' | 'Shortlisted';
-  image: string;
-  contact: string;
-  description: string;
-}
-
-export interface TimelineMilestone {
-  id: string;
-  timeframe: string;
-  title: string;
-  description: string;
-  completed: boolean;
-  isWeddingDay: boolean;
-}
-
-export interface SeatingTable {
-  id: string;
-  name: string;
-  capacity: number;
-  assignedGuests: string[];
-}
-
-export const MOCK_GUESTS: Guest[] = [
-  { id: 'g1', name: 'Eleanor Vance', relationship: 'Bride Family', rsvpStatus: 'Attending', dietary: 'Gluten-Free', tableAssignment: 'Table 1', plusOne: true },
-  { id: 'g2', name: 'Julian Vance', relationship: 'Bride Family', rsvpStatus: 'Attending', dietary: 'None', tableAssignment: 'Table 1', plusOne: false },
-  { id: 'g3', name: 'Robert Sterling', relationship: 'Groom Family', rsvpStatus: 'Attending', dietary: 'None', tableAssignment: 'Table 2', plusOne: true },
-  { id: 'g4', name: 'Clara Sterling', relationship: 'Groom Family', rsvpStatus: 'Attending', dietary: 'None', tableAssignment: 'Table 2', plusOne: false },
-  { id: 'g5', name: 'Siddharth Mehta', relationship: 'Mutual Friends', rsvpStatus: 'Pending', dietary: 'Vegan', tableAssignment: 'Table 3', plusOne: true },
-  { id: 'g6', name: 'Aria Chen', relationship: 'Mutual Friends', rsvpStatus: 'Attending', dietary: 'None', tableAssignment: 'Table 3', plusOne: false },
-  { id: 'g7', name: 'Marcus Brody', relationship: 'Work Colleagues', rsvpStatus: 'Declined', dietary: 'None', tableAssignment: 'Unassigned', plusOne: false },
-  { id: 'g8', name: 'Sophia Loren', relationship: 'Mutual Friends', rsvpStatus: 'Pending', dietary: 'Nut Allergy', tableAssignment: 'Table 4', plusOne: true },
-  { id: 'g9', name: 'David Beckham', relationship: 'Work Colleagues', rsvpStatus: 'Attending', dietary: 'None', tableAssignment: 'Table 4', plusOne: false },
-  { id: 'g10', name: 'Helena Carter', relationship: 'Bride Family', rsvpStatus: 'Pending', dietary: 'Vegetarian', tableAssignment: 'Table 1', plusOne: false },
+export const MOCK_GUESTS: GuestItem[] = [
+  { id: 'g1', name: 'Eleanor Vance', email: 'eleanor@vance.co', category: 'VIP', table: 'Table 1 (Head Table)', dietary: 'Gluten-Free', status: 'Confirmed', plusOne: true },
+  { id: 'g2', name: 'Julian Montgomery', email: 'julian@monty.com', category: 'Wedding Party', table: 'Table 1 (Head Table)', dietary: 'None', status: 'Confirmed', plusOne: true },
+  { id: 'g3', name: 'Sophia Sterling', email: 'sophia@sterling.design', category: 'Family', table: 'Table 2 (Family)', dietary: 'Vegan', status: 'Confirmed', plusOne: false },
+  { id: 'g4', name: 'Aiden Brooks', email: 'aiden@brooks.law', category: 'Friends', table: 'Table 3', dietary: 'None', status: 'Pending', plusOne: true },
+  { id: 'g5', name: 'Victoria Sinclair', email: 'v.sinclair@art.org', category: 'VIP', table: 'Table 2 (Family)', dietary: 'Vegetarian', status: 'Confirmed', plusOne: true },
+  { id: 'g6', name: 'Liam Harrington', email: 'liam@harrington.io', category: 'Friends', table: 'Table 3', dietary: 'None', status: 'Declined', plusOne: false },
+  { id: 'g7', name: 'Camilla Dupont', email: 'camilla@dupont.fr', category: 'Wedding Party', table: 'Table 1 (Head Table)', dietary: 'None', status: 'Confirmed', plusOne: true },
+  { id: 'g8', name: 'Gabriel Vance', email: 'gabriel@vance.co', category: 'Family', table: 'Table 2 (Family)', dietary: 'Kosher', status: 'Pending', plusOne: true }
 ];
 
-export const MOCK_EXPENSES: Expense[] = [
-  { id: 'e1', name: 'Chateau de Bellevue Rental', category: 'Venue', estimated: 15000, actual: 16500, paid: 8000, status: 'Deposit Paid' },
-  { id: 'e2', name: 'Gourmet 5-Course Catering', category: 'Catering', estimated: 12000, actual: 11500, paid: 11500, status: 'Paid' },
-  { id: 'e3', name: 'Custom Silk Bridal Gown', category: 'Attire', estimated: 5000, actual: 5500, paid: 2000, status: 'Deposit Paid' },
-  { id: 'e4', name: 'Bespoke Tuxedo', category: 'Attire', estimated: 1500, actual: 1200, paid: 1200, status: 'Paid' },
-  { id: 'e5', name: 'Cinematic Video & Photo Package', category: 'Production', estimated: 6000, actual: 6000, paid: 0, status: 'Unpaid' },
-  { id: 'e6', name: 'White Orchids & Rose Arbors', category: 'Florist & Decor', estimated: 4500, actual: 4800, paid: 1500, status: 'Deposit Paid' },
-  { id: 'e7', name: 'Live Jazz Quartet & DJ Set', category: 'Music & Entertainment', estimated: 4000, actual: 3800, paid: 3800, status: 'Paid' },
+export const MOCK_BUDGET: BudgetItem[] = [
+  { id: 'b1', category: 'Venue', item: 'The Plaza Grand Ballroom Rental', allocated: 45000, spent: 45000, status: 'Paid' },
+  { id: 'b2', category: 'Catering', item: '5-Course Gourmet Dinner & Open Bar', allocated: 28000, spent: 14000, status: 'Partial' },
+  { id: 'b3', category: 'Photography', item: 'Editorial Photo & Cinematography Team', allocated: 12000, spent: 6000, status: 'Partial' },
+  { id: 'b4', category: 'Florals', item: 'Grand Arch & Centerpieces by Fleurs de Paris', allocated: 15000, spent: 5000, status: 'Partial' },
+  { id: 'b5', category: 'Music', item: 'String Quartet & 8-Piece Live Band', allocated: 9000, spent: 0, status: 'Pending' },
+  { id: 'b6', category: 'Attire', item: 'Custom Couture Gown & Bespoke Tuxedo', allocated: 11000, spent: 11000, status: 'Paid' }
+];
+
+export const MOCK_VENDORS: VendorItem[] = [
+  { id: 'v1', name: 'Lumière Cinematic Studios', category: 'Photography', rating: 4.9, reviewsCount: 128, priceRange: '$10k - $18k', location: 'New York, NY', image: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=800&q=80', shortlisted: true },
+  { id: 'v2', name: 'Fleurs de Paris Atelier', category: 'Florist', rating: 5.0, reviewsCount: 94, priceRange: '$12k - $25k', location: 'Manhattan, NY', image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80', shortlisted: true },
+  { id: 'v3', name: 'The Plaza Grand Ballroom', category: 'Venue', rating: 4.9, reviewsCount: 310, priceRange: '$40k - $70k', location: 'Fifth Avenue, NY', image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80', shortlisted: true },
+  { id: 'v4', name: 'Chef Laurent Gourmet', category: 'Caterer', rating: 4.8, reviewsCount: 156, priceRange: '$25k - $45k', location: 'Brooklyn, NY', image: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80', shortlisted: false },
+  { id: 'v5', name: 'Midnight Groove Orchestra', category: 'DJ', rating: 4.9, reviewsCount: 82, priceRange: '$7k - $12k', location: 'New York, NY', image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80', shortlisted: false }
+];
+
+export const MOCK_TIMELINE: TimelineItem[] = [
+  { id: 't1', time: '09:00 AM', title: 'Bridal Party Hair & Makeup', location: 'The Plaza Presidential Suite', notes: 'Mimosas and pastries served by room service.', category: 'Preparation' },
+  { id: 't2', time: '11:30 AM', title: 'First Look & Editorial Portraits', location: 'Central Park Conservatory Garden', notes: 'Photographer Lumière arrives with drone squad.', category: 'Photos' },
+  { id: 't3', time: '03:30 PM', title: 'Guest Arrival & Champagne Welcome', location: 'The Grand Ballroom Foyer', notes: 'String quartet begins background acoustic set.', category: 'Ceremony' },
+  { id: 't4', time: '04:00 PM', title: 'Wedding Ceremony Begins', location: 'The Plaza Grand Ballroom', notes: 'Processional starts promptly at 4:05 PM.', category: 'Ceremony' },
+  { id: 't5', time: '05:30 PM', title: 'Cocktail Hour & Hors d’oeuvres', location: 'Terrace Garden Room', notes: 'Signature cocktails: Rose French 75 & Golden Old Fashioned.', category: 'Reception' },
+  { id: 't6', time: '07:00 PM', title: 'Grand Entrance & 5-Course Dinner', location: 'The Plaza Grand Ballroom', notes: 'First dance to live orchestra performance.', category: 'Reception' }
 ];
 
 export const MOCK_CHECKLIST: ChecklistItem[] = [
-  { id: 'c1', task: 'Finalize catering menu and wine pairings', dueDate: '2024-11-15', completed: true, category: 'Planning' },
-  { id: 'c2', task: 'Send rehearsal dinner invitations', dueDate: '2024-11-20', completed: false, category: 'Planning' },
-  { id: 'c3', task: 'Confirm floral delivery and setup times', dueDate: '2024-12-01', completed: false, category: 'Design' },
-  { id: 'c4', task: 'Submit marriage license application', dueDate: '2024-12-05', completed: true, category: 'Legal' },
-  { id: 'c5', task: 'Finalize seating chart and place cards', dueDate: '2024-12-10', completed: false, category: 'Planning' },
-  { id: 'c6', task: 'Schedule final dress and tuxedo fittings', dueDate: '2024-11-28', completed: true, category: 'Bookings' },
-];
-
-export const MOCK_VENDORS: Vendor[] = [
-  {
-    id: 'v1',
-    name: 'Chateau de Bellevue',
-    category: 'Venue',
-    rating: 4.9,
-    priceRange: '$$$$',
-    status: 'Contract Signed',
-    image: getImage('photo-1519167758481-83f550bb49b3', 600, 400),
-    contact: 'events@bellevuechateau.com',
-    description: 'A breathtaking 18th-century estate featuring manicured French gardens, crystal chandeliers, and panoramic valley views.'
-  },
-  {
-    id: 'v2',
-    name: 'Lumiere Wedding Cinema',
-    category: 'Photography',
-    rating: 4.8,
-    priceRange: '$$$',
-    status: 'Contract Signed',
-    image: getImage('photo-1537633552985-df8429e8048b', 600, 400),
-    contact: 'hello@lumierecinema.com',
-    description: 'Editorial and documentary-style wedding photography capturing raw emotions, golden hour magic, and timeless portraits.'
-  },
-  {
-    id: 'v3',
-    name: 'Fleur Sauvage Design',
-    category: 'Florist',
-    rating: 5.0,
-    priceRange: '$$$',
-    status: 'In Negotiation',
-    image: getImage('photo-1526047932273-341f2a7631f9', 600, 400),
-    contact: 'design@fleursauvage.com',
-    description: 'Bespoke floral installations specializing in lush, romantic, and organic designs tailored to high-end celebrations.'
-  },
-  {
-    id: 'v4',
-    name: 'The Gastronomy Club',
-    category: 'Catering',
-    rating: 4.7,
-    priceRange: '$$$$',
-    status: 'Contract Signed',
-    image: getImage('photo-1555244162-803834f70033', 600, 400),
-    contact: 'chef@gastronomyclub.com',
-    description: 'Michelin-starred wedding catering featuring seasonal ingredients, interactive food stations, and custom mixology bars.'
-  },
-  {
-    id: 'v5',
-    name: 'The Velvet Quartet',
-    category: 'Music',
-    rating: 4.9,
-    priceRange: '$$',
-    status: 'Shortlisted',
-    image: getImage('photo-1511671782779-c97d3d27a1d4', 600, 400),
-    contact: 'booking@velvetquartet.com',
-    description: 'Elegant string quartet performing classical renditions of modern love songs, perfect for ceremonies and cocktail hours.'
-  }
-];
-
-export const MOCK_TIMELINE: TimelineMilestone[] = [
-  { id: 't1', timeframe: '10 Months Out', title: 'Secure Dream Venue', description: 'Book Chateau de Bellevue and confirm the date.', completed: true, isWeddingDay: false },
-  { id: 't2', timeframe: '8 Months Out', title: 'Curate Creative Team', description: 'Hire photographer, florist, and catering services.', completed: true, isWeddingDay: false },
-  { id: 't3', timeframe: '6 Months Out', title: 'Send Save the Dates', description: 'Mail custom-designed stationery to the guest list.', completed: true, isWeddingDay: false },
-  { id: 't4', timeframe: '3 Months Out', title: 'Menu Tasting & Attire Fittings', description: 'Finalize the 5-course menu and complete first dress fitting.', completed: true, isWeddingDay: false },
-  { id: 't5', timeframe: '1 Month Out', title: 'Finalize Seating & RSVPs', description: 'Lock in guest count and assign tables.', completed: false, isWeddingDay: false },
-  { id: 't6', timeframe: '08:00 AM', title: 'Hair & Makeup Prep', description: 'Bridal party prep begins in the Chateau suite.', completed: false, isWeddingDay: true },
-  { id: 't7', timeframe: '02:00 PM', title: 'First Look & Portraits', description: 'Private moment for Olivia & Marcus in the gardens.', completed: false, isWeddingDay: true },
-  { id: 't8', timeframe: '04:30 PM', title: 'The Ceremony', description: 'Exchange of vows under the floral arbor.', completed: false, isWeddingDay: true },
-  { id: 't9', timeframe: '06:00 PM', title: 'Cocktail Hour & Reception', description: 'Champagne toast, live jazz, and fine dining.', completed: false, isWeddingDay: true }
-];
-
-export const MOCK_SEATING_TABLES: SeatingTable[] = [
-  { id: 'tbl1', name: 'Table 1 - Royal Family', capacity: 8, assignedGuests: ['Eleanor Vance', 'Julian Vance', 'Helena Carter'] },
-  { id: 'tbl2', name: 'Table 2 - Sterling Estate', capacity: 8, assignedGuests: ['Robert Sterling', 'Clara Sterling'] },
-  { id: 'tbl3', name: 'Table 3 - Creative Circle', capacity: 8, assignedGuests: ['Siddharth Mehta', 'Aria Chen'] },
-  { id: 'tbl4', name: 'Table 4 - London Crew', capacity: 8, assignedGuests: ['Sophia Loren', 'David Beckham'] }
+  { id: 'c1', task: 'Secure Venue Contract & Deposit', category: 'Venue', completed: true, dueDate: '2025-01-15' },
+  { id: 'c2', task: 'Finalize Couture Gown Fitting', category: 'Attire', completed: true, dueDate: '2025-02-10' },
+  { id: 'c3', task: 'Book Cinematic Photography Team', category: 'Vendors', completed: true, dueDate: '2025-02-28' },
+  { id: 'c4', task: 'Send Calligraphy Save-The-Dates', category: 'Stationery', completed: true, dueDate: '2025-03-15' },
+  { id: 'c5', task: 'Menu Tasting with Chef Laurent', category: 'Catering', completed: false, dueDate: '2025-04-20' },
+  { id: 'c6', task: 'Final Seating Chart & Place Cards', category: 'Guests', completed: false, dueDate: '2025-09-01' }
 ];

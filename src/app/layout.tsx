@@ -1,13 +1,11 @@
-'use client';
-
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-import { Toaster } from '@/components/ui/sonner'
+import { Toaster } from 'sonner'
 
-const inter = Inter({ subsets: ['latin'] })
-
-
+export const metadata: Metadata = {
+  title: 'My App',
+  description: 'Built with AI Builder',
+}
 
 export default function RootLayout({
   children,
@@ -57,7 +55,8 @@ export default function RootLayout({
           }
           return String(arg);
         }).join(' ');
-
+        
+        // Pass errors except minor hydration mismatch warning spam
         if (!msg.includes('Minified React error') && !msg.includes('Hydration failed')) {
           reportError('console_error', {
             message: msg,
@@ -73,10 +72,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="antialiased bg-slate-50 text-slate-900 min-h-screen">
         <script dangerouslySetInnerHTML={{ __html: bridgeScript }} />
         {children}
-        <Toaster />
+        <Toaster richColors position="top-right" closeButton />
       </body>
     </html>
   )
